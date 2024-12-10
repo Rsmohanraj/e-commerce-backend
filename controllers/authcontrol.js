@@ -95,7 +95,7 @@ exports.logoutUser =(req, res, next) => {
         from: process.env.EMAIL_USER,
         to: user.email,
         subject: "Password Reset Request",
-        text: `You are receiving this email because you (or someone else) has requested a password reset for your account. \n\nClick on the following link to reset your password: /api/v1/password/reset/${token}`
+        text: `You are receiving this email because you (or someone else) has requested a password reset for your account. \n\nClick on the following link to reset your password: https://guvi-ecomm.netlify.app/api/v1/password/reset/${token}`
       };
       transporter.sendMail(mailOptions,(error, info) => {
   if(error){
