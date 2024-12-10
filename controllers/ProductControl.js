@@ -34,7 +34,7 @@ exports.newProduct = catchAsyncError(async (req, res, next)=>{
     let images=[]
     if(req.files.length > 0){
         req.files.forEach(file => {
-            let url = `${process.env.BACKEND_URL}/uploads/product/${file.originalname}`
+            let url = `https://e-comm-ulev.onrender.com/uploads/product/${file.originalname}`
             images.push({image:url})
         })
     }
