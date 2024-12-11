@@ -16,10 +16,19 @@ dotenv.config();
 //Get Products - /api/v1/products
 exports.getProducts = catchAsyncError(async (req, res, next)=>{
    const resPerPage =3;
+   let buildQuery =() => {
+    return new APIFeatures(Product.find(),req.query).search().filter()
+   }
    const apiFeatures = new APIFeatures(Product.find(), req.query).search().filter();
 
-   const products = await apiFeatures.query;
+  const filteredProductsCount =await buildQuery().query.countDocuments({})
    const totalProductsCount = await Product.countDocuments({})
+   let productsCount =totalProductsCount;
+
+   if(filteredProductsCount !== totalProductsCount) {
+     productsCount = filteredProductsCount;
+   }
+   const products = await buildQuery().paginate(resPerPage).query;
    res.status(200).json({
        success: true,
        count: totalProductsCount,
@@ -27,7 +36,6 @@ exports.getProducts = catchAsyncError(async (req, res, next)=>{
        products
    })
 })
-
 //Create Product - /api/v1/product/new
 exports.newProduct = catchAsyncError(async (req, res, next)=>{
     
